@@ -10,65 +10,129 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  View
+  View,
+  Image
 } from 'react-native';
+
+var Forecast = require('./Forecast');
+var content = null;
 
 class FirstProject extends Component {
   constructor() {
     super();
     this.state = {
-      zip: ''
+      zip: '',
+      forecast: null
     };
-    this.onChange = this.onChange.bind(this)
+    this.onChange = this.onChange.bind(this);
+    if (this.state.forecast !== null) {
+      content = <Forecast
+      main={this.state.forecast.main}
+      description={this.state.forecast.description}
+      temp={this.state.forecast.temp}/>;
+    }
   }
+
   onChange(event){
-    console.log(event.nativeEvent.text);
+    var zip = event.nativeEvent.text;
     this.setState({
-      zip:event.nativeEvent.text
+      zip:zip
     });
+    fetch('http://api.openweathermap.org/data/2.5/weather?q=' +
+    zip + '&APPID=226963277f0b5995ea950fcdbee01008')
+      .then((response) => response.json())
+      .then((responseJSON) => {
+        console.log(responseJSON);
+        this.setState({
+          forecast: {
+            main: responseJSON.weather[0].main,
+            description: responseJSON.weather[0].description,
+            temp: Math.floor(responseJSON.main.temp - 273)
+          }
+        });
+      })
+      .catch((error) => {
+        console.warn(error);
+      });
   }
 
   render() {
+    if (this.state.forecast !== null) {
+      content = <Forecast
+      main={this.state.forecast.main}
+      description={this.state.forecast.description}
+      temp={this.state.forecast.temp}/>;
+    }
     return (
       <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        onSubmitEditing={this._handleTextChange}
-      />
-      <Text style={styles.welcome}>
-        you input {this.state.zip}.
-      </Text>
+        <Image
+          source={{uri: 'https://d19vfv6p26udb5.cloudfront.net/wp-content/uploads/2016/06/21145923/RIMG0202-450x600.jpg'}}
+          resizeMode='cover'
+          style={styles.backdrop}>
+          <View style={styles.overlay}>
+            <View style={styles.row}>
+              <Text style={styles.mainText}>
+                Current Weather For
+              </Text>
+              <View style={styles.zipContainer}>
+                <TextInput
+                  placeholder="Please input city name or zip code"
+                  style={[styles.zipCode, styles.mainText]}
+                  returnKeyType="go"
+                  onSubmitEditing={this.onChange}/>
+              </View>
+            </View>
+            {content}
+          </View>
+        </Image>
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
+var baseFontSize = 16;
+var styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    paddingTop: 30,
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  backdrop: {
+    flex: 1,
+    flexDirection: 'column',
+    alignSelf: 'stretch',
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  overlay : {
+    paddingTop: 5 ,
+    backgroundColor: '#000000',
+    opacity: 0.5 ,
+    flexDirection: 'column',
+    alignItems: 'center',
   },
-  input: {
-    margin: 20,
-    fontSize: 20,
-    borderWidth: 2,
-    borderColor: '#49c13b',
-    padding: 10,
-    borderRadius: 4,
-    height:40
+  row: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'nowrap',
+    alignItems: 'flex-start',
+    padding: 30,
   },
+  mainText: {
+    fontSize: baseFontSize,
+    color: '#fff',
+    alignItems: 'center',
+  },
+  zipContainer: {
+    flex: 1,
+    borderColor:'#ade248',
+    borderWidth: 1,
+    marginLeft: 5,
+    marginTop: 3,
+  },
+  zipCode: {
+    width: 50 ,
+    height: baseFontSize,
+  },
+
 });
 
 AppRegistry.registerComponent('FirstProject', () => FirstProject);
