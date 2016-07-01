@@ -7,41 +7,71 @@ import {
   View,
   Image,
   ListView,
-  TouchableHighlight,
+  TextInput,
 
 } from 'react-native';
 
 var BookItem = require('./BookItem');
 var API_KEY = '93a132a4b18d4db784da565bb761cf19';
-var QUERY_TYPE = 'hardcover-fiction';
 var API_STEM = 'https://api.nytimes.com/svc/books/v3/lists'
-var ENDPOINT = `${API_STEM}/${QUERY_TYPE}?response-format=json&api-key=${API_KEY}`;
 
 class BookList extends Component {
   constructor() {
     super();
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2 });
     this.state = {
-      dataSource: ds.cloneWithRows([])
+      query: 'e-book-fiction',
+      dataSource: ds.cloneWithRows([]),
+      error: false
     };
-    this._refreshData = this._refreshData.bind(this)
+    this.onChange = this.onChange.bind(this);
   }
-  componentDidMount() {
-    this._refreshData();
+  onChange(event){
+    var query = event.nativeEvent.text;
+    this.setState({
+      query: query
+    });
+    this._refreshData(this.state.query);
   }
 
-  _refreshData() {
-    fetch(ENDPOINT)
+  componentDidMount() {
+    this._refreshData(this.state.query);
+  }
+
+  _refreshData(query) {
+    var endpoint = `${API_STEM}/${query}?response-format=json&api-key=${API_KEY}`
+    fetch(endpoint)
       .then((response) => response.json())
       .then((rjson) => {
         console.log(rjson);
         this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(rjson.results.books)
+          dataSource: this.state.dataSource.cloneWithRows(rjson.results.books),
+          error: false
         });
       })
       .catch((error) => {
         console.warn(error);
+        this.setState({
+          error: true
+        });
       });
+  }
+
+  _renderError() {
+    return (
+      <View style={styles.container}>
+        <View style={styles.queryContainer}>
+          <Text>
+            No result for {this.state.query} Please input again
+          </Text>
+          <TextInput
+            placeholder="Please input query"
+            style={[styles.query, styles.mainText]}
+            returnKeyType="go"
+            onSubmitEditing={this.onChange}/>
+        </View>
+      </View>
+    );
   }
 
   _renderRow(rowData) {
@@ -49,10 +79,11 @@ class BookList extends Component {
   }
 
   _renderHeader() {
-    return ( <View style={styles.sectionDivider}>
-      <Text style={styles.headingText}>
-        Bestselllers in hardcover-fiction
-      </Text>
+    return (
+      <View style={styles.sectionDivider}>
+        <Text style={styles.headingText}>
+          Best Seller List
+        </Text>
       </View>
     );
   }
@@ -67,26 +98,32 @@ class BookList extends Component {
     );
   }
   render() {
-    return (
-      <View style={styles.container}>
-        <TouchableHighlight  onPress={this._refreshData}>
-         <Text style={styles.button}>
-           再読み込み
-         </Text>
-       </TouchableHighlight>
-        <ListView
-          enableEmptySections={true}
-          dataSource={this.state.dataSource}
-          renderRow={this._renderRow}
-          renderHeader={this._renderHeader}
-          renderFooter={this._renderFooter}
-          />
-        <Text>
-          {console.log(ENDPOINT)}
-        </Text>
-
-      </View>
-    );
+    if(this.state.error){
+      return this._renderError();
+    }
+    else {
+      return (
+        <View style={styles.container}>
+          <View style={styles.queryContainer}>
+            <TextInput
+              placeholder="Please input query"
+              style={[styles.query, styles.mainText]}
+              returnKeyType="go"
+              onSubmitEditing={this.onChange}/>
+            <Text style={styles.headingText}>
+              Search results for {this.state.query}
+            </Text>
+          </View>
+          <ListView
+            enableEmptySections={true}
+            dataSource={this.state.dataSource}
+            renderRow={this._renderRow}
+            renderHeader={this._renderHeader}
+            renderFooter={this._renderFooter}
+            />
+        </View>
+      );
+    }
   }
 }
 
@@ -124,12 +161,30 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   button: {
-    padding: 15,
+    flex: 1,
+    padding: 10,
     borderColor: '#000',
     borderRadius: 4,
     borderWidth: 2,
+    alignSelf: 'flex-end',
     textAlign: 'center',
-  }
+  },
+  mainText: {
+    fontSize: 16,
+    color: '#000',
+    alignItems: 'center',
+  },
+  query: {
+    alignSelf: 'center',
+    marginTop: 30,
+    width: 300 ,
+    height: 30,
+    borderWidth: 1,
+    borderColor: '#000',
+    borderRadius: 4,
+    marginBottom: 20,
+    padding:5,
+  },
 });
 
 module.exports = BookList;
