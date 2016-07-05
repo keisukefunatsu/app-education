@@ -1,8 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
 
 import React, { Component } from 'react';
 import {
@@ -10,11 +5,15 @@ import {
   Text,
   TextInput,
   View,
-  Image
+  Image,
+  TouchableHighlight
 } from 'react-native';
 
 var Forecast = require('./Forecast');
-var content = null;
+var forecastContent = null;
+var API_STEM = 'http://api.openweathermap.org/data/2.5/weather?';
+var API_KEY = '226963277f0b5995ea950fcdbee01008';
+
 
 class FirstProject extends Component {
   constructor() {
@@ -23,30 +22,24 @@ class FirstProject extends Component {
       zip: '',
       forecast: null
     };
-    this.onChange = this.onChange.bind(this);
-    if (this.state.forecast !== null) {
-      content = <Forecast
-      main={this.state.forecast.main}
-      description={this.state.forecast.description}
-      temp={this.state.forecast.temp}/>;
-    }
+    this._getForcastForZip = this._getForcastForZip.bind(this);
+    this._getCurrentPosition = this._getCurrentPosition.bind(this);
+    this._getForcastForCoords = this._getForcastForCoords.bind(this);
   }
 
-  onChange(event){
-    var zip = event.nativeEvent.text;
-    this.setState({
-      zip:zip
-    });
-    fetch('http://api.openweathermap.org/data/2.5/weather?q=' +
-    zip + '&APPID=226963277f0b5995ea950fcdbee01008')
+  componentDidMount() {
+    this._getCurrentPosition();
+  }
+  _getForcast(url,cb){
+    fetch(url)
       .then((response) => response.json())
       .then((responseJSON) => {
-        console.log(responseJSON);
         this.setState({
           forecast: {
             main: responseJSON.weather[0].main,
             description: responseJSON.weather[0].description,
-            temp: Math.floor(responseJSON.main.temp - 273)
+            temp: Math.floor(responseJSON.main.temp - 273),
+            city: responseJSON.name
           }
         });
       })
@@ -54,13 +47,38 @@ class FirstProject extends Component {
         console.warn(error);
       });
   }
+  _getForcastForZip(event){
+    var zip = event.nativeEvent.text;
+    this.setState({
+      zip:zip
+    });
+    this._getForcast(`${API_STEM}q=${zip}&APPID=${API_KEY}`);
+  }
+
+  _getForcastForCoords(lat, lon){
+    this._getForcast(`${API_STEM}lat=${lat}&lon=${lon}&APPID=${API_KEY}`);
+  }
+  _getCurrentPosition(){
+    navigator.geolocation.getCurrentPosition(
+      (initialPosition) => {
+        this.setState({
+          latitude: initialPosition.coords.latitude,
+          longitude: initialPosition.coords.longitude,
+        });
+        this._getForcastForCoords(this.state.latitude,this.state.longitude);
+      },
+      (error) => alert(error.message),
+      {enableHighAccuracy:true, timeout: 20000, maximumAge:1000}
+    );
+  }
 
   render() {
     if (this.state.forecast !== null) {
-      content = <Forecast
+      forecastContent = <Forecast
       main={this.state.forecast.main}
       description={this.state.forecast.description}
-      temp={this.state.forecast.temp}/>;
+      temp={this.state.forecast.temp}
+      city={this.state.forecast.city}/>;
     }
     return (
       <View style={styles.container}>
@@ -78,10 +96,15 @@ class FirstProject extends Component {
                   placeholder="Please input city name or zip code"
                   style={[styles.zipCode, styles.mainText]}
                   returnKeyType="go"
-                  onSubmitEditing={this.onChange}/>
+                  onSubmitEditing={this._getForcastForZip}/>
               </View>
             </View>
-            {content}
+            <TouchableHighlight onPress={this._getCurrentPosition} style={styles.button}>
+              <Text>
+                Use Current Location
+              </Text>
+            </TouchableHighlight>
+            {forecastContent}
           </View>
         </Image>
       </View>
@@ -121,9 +144,10 @@ var styles = StyleSheet.create({
     alignItems: 'center',
   },
   zipContainer: {
-    flex: 1,
+    flex: 2,
     borderColor:'#ade248',
-    borderWidth: 1,
+    borderBottomWidth: 1,
+    borderRadius: 4,
     marginLeft: 5,
     marginTop: 3,
   },
@@ -131,7 +155,16 @@ var styles = StyleSheet.create({
     width: 100 ,
     height: baseFontSize,
   },
-
+  button: {
+    flex: 2,
+    padding: 15,
+    marginBottom: 20,
+    borderWidth: 2,
+    borderColor: 'white',
+    opacity: 0.8,
+    borderRadius: 4,
+    backgroundColor: 'white',
+  }
 });
 
 module.exports = FirstProject;
