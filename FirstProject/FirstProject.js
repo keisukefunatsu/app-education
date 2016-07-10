@@ -9,13 +9,13 @@ import {
   TouchableHighlight
 } from 'react-native';
 
-var Forecast = require('./Forecast');
+import Forecast from './Forecast'
 var forecastContent = null;
 var API_STEM = 'http://api.openweathermap.org/data/2.5/weather?';
 var API_KEY = '226963277f0b5995ea950fcdbee01008';
 
 
-class FirstProject extends Component {
+export default class FirstProject extends Component {
   constructor() {
     super();
     this.state = {
@@ -166,5 +166,3 @@ var styles = StyleSheet.create({
     backgroundColor: 'white',
   }
 });
-
-module.exports = FirstProject;

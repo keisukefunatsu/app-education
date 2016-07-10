@@ -11,7 +11,7 @@ import {
   View
 } from 'react-native';
 
-class Forecast extends Component {
+export default class Forecast extends Component {
   render() {
     return (
       <View>
@@ -47,5 +47,3 @@ const styles = StyleSheet.create({
     color: '#F5FCFF'
   }
 })
-
-module.exports = Forecast;
