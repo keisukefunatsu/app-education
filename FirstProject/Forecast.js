@@ -11,10 +11,13 @@ import {
   View
 } from 'react-native';
 
-class Forecast extends Component {
+export default class Forecast extends Component {
   render() {
     return (
       <View>
+        <Text style={styles.bigText}>
+          {this.props.city}
+        </Text>
       <Text style={styles.bigText}>
         {this.props.main}
       </Text>
@@ -44,5 +47,3 @@ const styles = StyleSheet.create({
     color: '#F5FCFF'
   }
 })
-
-module.exports = Forecast;

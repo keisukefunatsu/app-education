@@ -9,6 +9,6 @@ import {
   AppRegistry
 } from 'react-native';
 
-var FirstProject = require('./FirstProject');
+import FirstProject from './FirstProject';
 
 AppRegistry.registerComponent('FirstProject', () => FirstProject);
