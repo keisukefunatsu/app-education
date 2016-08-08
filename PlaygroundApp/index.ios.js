@@ -1,10 +1,6 @@
 'use strict';
 
-import React, { Component } from 'react';
-import PlaygroundApp from './src/PlaygroundApp';
-import {
-  AppRegistry,
-  View
-} from 'react-native';
+import React, { AppRegistry} from 'react-native';
+import App from './app/containers/app';
 
-AppRegistry.registerComponent('PlaygroundApp', () => PlaygroundApp);
+AppRegistry.registerComponent('PlaygroundApp', () => App);
