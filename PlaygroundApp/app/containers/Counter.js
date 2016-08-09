@@ -19,7 +19,7 @@ export default class Counter extends Component {
     return (
       <View style={styles.main}>
         <Text style={styles.counter}>
-          Counter: {state}
+          Counter: {counter}
         </Text>
         <TouchableOpacity onPress={increment} style={styles.button}>
           <Text style={styles.counter}>

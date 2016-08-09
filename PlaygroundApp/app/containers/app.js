@@ -14,16 +14,12 @@ import { Provider, connect } from 'react-redux';
 const store = createStore(counter);
 
 export default class App extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
-    const { state } = this.props;
+    const { count } = this.props;
     return (
       <Provider store={store}>
         <Counter
-          counter={state}
+          counter={console.log(count)}
           increment={() => store.dispatch({ type :'INCREMENT' })}
           decrement={() => store.dispatch({ type :'DECREMENT' })}
           />
@@ -31,9 +27,15 @@ export default class App extends Component {
     );
   }
 }
+
 export default function mapStateToProps(state) {
-  return {state: state.counter}
+  return { count: state.count }
 }
-App = connect(
-  mapStateToProps
+export default function mapDispatchToProps(dispatch) {
+  return {
+  };
+}
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
 )(App);
