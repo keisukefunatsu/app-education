@@ -4,10 +4,9 @@ import {
   View,
   Text,
   TouchableOpacity,
-
  } from 'react-native';
 
-import counter from '../reducers/index';
+import { connect } from 'react-redux';
 
 export default class Counter extends Component {
   constructor(props) {
@@ -15,11 +14,11 @@ export default class Counter extends Component {
   }
 
   render() {
-    const { counter, increment, decrement, state } = this.props;
+    const { count, increment, decrement } = this.props;
     return (
       <View style={styles.main}>
         <Text style={styles.counter}>
-          Counter: {counter}
+          Counter: {count}
         </Text>
         <TouchableOpacity onPress={increment} style={styles.button}>
           <Text style={styles.counter}>
@@ -35,6 +34,17 @@ export default class Counter extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return { count: state.count }
+}
+function mapDispatchToProps(dispatch) {
+  return {
+  };
+}
+export default connect(
+  mapStateToProps
+)(Counter);
 
 
 const styles = StyleSheet.create({
