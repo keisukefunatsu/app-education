@@ -1,11 +1,11 @@
 import React, { Component, } from 'react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import todolist from '../reducers/index.js'
+import todoList from '../reducers/todos.js'
 import TodoApp from './TodoApp'
 
 
-store = createStore(todolist)
+let store = createStore(todoList)
 export default class App extends Component {
   constructor(props) {
     super(props)

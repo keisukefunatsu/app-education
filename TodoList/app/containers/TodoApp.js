@@ -1,12 +1,7 @@
-import React, { Component, } from 'react'
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  TouchableHighlight,
-} from 'react-native'
-import { connect } from 'react-redux'
+import React, { Component, } from 'react';
+import { connect } from 'react-redux';
+import TodoList from '../components/TodoList'
+import { todo, todos } from '../reducers/todos'
 export default class TodoApp extends Component {
   static propTypes = {}
   static defaultProps = {}
@@ -16,38 +11,21 @@ export default class TodoApp extends Component {
     }
   }
   render() {
-    const { todo } = this.props;
+    const { todo, id } = this.props;
       return (
-      <View style={styles.container}>
-          <Text>{todo}</Text>
-          <TouchableHighlight
-            onPress={() => {store.dispatch({type:'Do'})}}
-            activeOpacity={75 / 100}
-            underlayColor={"rgb(210,210,210)"}>
-            <Text>Press</Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-            onPress={() => {store.dispatch({type:'Undo'})}}
-            activeOpacity={75 / 100}
-            underlayColor={"rgb(210,210,210)"}>
-            <Text>Press</Text>
-          </TouchableHighlight>
-      </View>
+        <TodoList
+          todo={todo}
+          id={id}
+        />
     )
   }
 }
 
 function mapStateToProps(state) {
   return {
-    todo: state.todo
+    todo: state.todo,
+    id: state.id,
   }
 }
 export default connect(mapStateToProps)(TodoApp)
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'column',
-  }
-});
+
