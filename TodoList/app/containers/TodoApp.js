@@ -10,12 +10,10 @@ export default class TodoApp extends Component {
     }
   }
   render() {
-    const { todo, id, completed } = this.props;
+    const { todos } = this.props;
       return (
         <TodoList
-          todo={todo}
-          id={id}
-          completed={completed}
+          todos={todos}
         />
     )
   }
@@ -23,9 +21,7 @@ export default class TodoApp extends Component {
 
 function mapStateToProps(state) {
   return {
-    todo: state.todo.todo,
-    id: state.todo.id,
-    completed: state.todo.completed
+    todos: state.todos
   }
 }
  export default connect(mapStateToProps)(TodoApp)

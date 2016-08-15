@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
-import todo from './todos';
+import todos from './todos';
 import visibilityFilter from './visibilityFilter';
 
 const reducer = combineReducers({
-  todo,
+  todos,
   visibilityFilter,
 });
 

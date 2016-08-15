@@ -7,6 +7,7 @@ import {
   TouchableHighlight,
 } from 'react-native'
 import { addTodo } from '../actions/index';
+import Todo from './Todo';
 
 export default class TodoList extends Component {
   static propTypes = {}
@@ -14,26 +15,35 @@ export default class TodoList extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      text: null,
+      
     }
   }
   render() {
-    const { todo, id } = this.props;
-      return (
-      <View style={styles.container}>
-        <Text>
-          {id}:{todo}
-        </Text>
+       const { todos } = this.props;
+       const todoap = ({ todos }) => (
         <View>
+          {todos.map((todo, index) =>
+            <Todo
+              key={index}
+              text={todo.text}
+              {...todo}
+            />
+          )}
+        </View>
+      )
+
+      return (
+      <View style={styles.container}>                
+        <View>          
+          {todos.map((todo, index) =>
+            <Todo
+              key={index}
+              text={todo.text}
+              {...todo}
+            />
+          )}
           <TextInput
-          style={{
-            height: 30, 
-            width: 100,
-            borderWidth: 1,
-            borderColor: "rgba(0,0,0,0.5)",
-            borderRadius: 5,
-            textAlign: 'center',
-          }}
+          style={styles.input}
           placeholder={ 'tasks?' }
           placeholderTextColor={"rgba(198,198,204,1)"}
           onChangeText={(text) => {this.setState({text})}}
@@ -43,8 +53,7 @@ export default class TodoList extends Component {
             }}
           value={(this.state && this.state.text) || ''}
         />
-        </View>
-        
+        </View>        
       </View>
     )
   }
@@ -56,5 +65,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
+  },
+  input: {
+    height: 30, 
+    width: 100,
+    borderWidth: 1,
+    borderColor: "rgba(0,0,0,0.5)",
+    borderRadius: 5,
+    textAlign: 'center',
   }
 });

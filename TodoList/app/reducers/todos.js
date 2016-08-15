@@ -1,14 +1,10 @@
-const initialState = {
-  todo: 'something' ,
-  id: 0,
-  completed: false,
-}
-export default function todo( state = initialState, action = {}) {
+
+export default function todo( state = {}, action = {}) {
   switch (action.type) {
     case 'ADD_TODO':
       return {
         id: action.id,
-        todo: action.text,
+        text: action.text,
         completed: false,
       }
     case 'TOGGLE_TODO':
@@ -25,18 +21,18 @@ export default function todo( state = initialState, action = {}) {
 
 
 
-// export default function todos( state = initialState, action = {}) {
-//   switch (action.type) {
-//     case 'ADD_TODO':
-//       return [
-//         ...state,
-//         todo(undefined, action)
-//       ]
-//     case 'TOGGLE_TODO':
-//       return state.map(t => 
-//         todolist(t, action)
-//       )
-//     default: 
-//       return state
-//   }   
-// }
+export default function todos( state = [], action = {}) {
+  switch (action.type) {
+    case 'ADD_TODO':
+      return [
+        ...state,
+        todo(undefined, action)
+      ]
+    case 'TOGGLE_TODO':
+      return state.map(t => 
+        todo(t, action)
+      )
+    default: 
+      return state
+  }   
+}
