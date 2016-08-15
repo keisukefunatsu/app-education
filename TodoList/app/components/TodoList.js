@@ -7,7 +7,7 @@ import {
   TouchableHighlight,
 } from 'react-native'
 import { addTodo } from '../actions/index';
-import Todo from './Todo';
+
 export default class TodoList extends Component {
   static propTypes = {}
   static defaultProps = {}
@@ -18,28 +18,33 @@ export default class TodoList extends Component {
     }
   }
   render() {
-    const { todo, id, onClick } = this.props;
+    const { todo, id } = this.props;
       return (
       <View style={styles.container}>
         <Text>
           {id}:{todo}
         </Text>
-        <TextInput
+        <View>
+          <TextInput
           style={{
             height: 30, 
             width: 100,
             borderWidth: 1,
             borderColor: "rgba(0,0,0,0.5)",
+            borderRadius: 5,
+            textAlign: 'center',
           }}
-          placeholder={'Type here'}
+          placeholder={ 'tasks?' }
           placeholderTextColor={"rgba(198,198,204,1)"}
           onChangeText={(text) => {this.setState({text})}}
           onSubmitEditing={() => {
-             store
+              store.dispatch(addTodo(this.state.text))
               this.setState({text: ''})              
             }}
           value={(this.state && this.state.text) || ''}
         />
+        </View>
+        
       </View>
     )
   }

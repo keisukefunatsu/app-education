@@ -3,7 +3,7 @@ const initialState = {
   id: 0,
   completed: false,
 }
-function todo( state = initialState, action = {}) {
+export default function todo( state = initialState, action = {}) {
   switch (action.type) {
     case 'ADD_TODO':
       return {
@@ -23,18 +23,20 @@ function todo( state = initialState, action = {}) {
   }   
 }
 
-export default function todos( state = initialState, action = {}) {
-  switch (action.type) {
-    case 'ADD_TODO':
-      return [
-        ...state,
-        todo(undefined, action)
-      ]
-    case 'TOGGLE_TODO':
-      return state.map(t => 
-        todolist(t, action)
-      )
-    default: 
-      return state
-  }   
-}
+
+
+// export default function todos( state = initialState, action = {}) {
+//   switch (action.type) {
+//     case 'ADD_TODO':
+//       return [
+//         ...state,
+//         todo(undefined, action)
+//       ]
+//     case 'TOGGLE_TODO':
+//       return state.map(t => 
+//         todolist(t, action)
+//       )
+//     default: 
+//       return state
+//   }   
+// }

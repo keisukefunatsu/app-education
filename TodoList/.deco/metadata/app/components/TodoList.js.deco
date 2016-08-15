@@ -3,11 +3,11 @@
 		{
 			"range": {
 				"from": {
-					"line": 28,
+					"line": 29,
 					"ch": 20
 				},
 				"to": {
-					"line": 28,
+					"line": 29,
 					"ch": 22
 				}
 			},
@@ -18,11 +18,11 @@
 		{
 			"range": {
 				"from": {
-					"line": 29,
+					"line": 30,
 					"ch": 19
 				},
 				"to": {
-					"line": 29,
+					"line": 30,
 					"ch": 22
 				}
 			},
@@ -33,11 +33,11 @@
 		{
 			"range": {
 				"from": {
-					"line": 31,
+					"line": 32,
 					"ch": 25
 				},
 				"to": {
-					"line": 31,
+					"line": 32,
 					"ch": 42
 				}
 			},
@@ -49,27 +49,11 @@
 		{
 			"range": {
 				"from": {
-					"line": 33,
-					"ch": 23
-				},
-				"to": {
-					"line": 33,
-					"ch": 34
-				}
-			},
-			"editWith": "inputField",
-			"type": "string",
-			"name": "Placeholder",
-			"group": "TEXT INPUT"
-		},
-		{
-			"range": {
-				"from": {
-					"line": 34,
+					"line": 37,
 					"ch": 32
 				},
 				"to": {
-					"line": 34,
+					"line": 37,
 					"ch": 53
 				}
 			},

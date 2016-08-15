@@ -1,8 +1,11 @@
 import { combineReducers } from 'redux';
-import todos from './todos';
+import todo from './todos';
 import visibilityFilter from './visibilityFilter';
 
-export const combinedReducer = combineReducers({
-  todos,
+const reducer = combineReducers({
+  todo,
   visibilityFilter,
 });
+
+export default reducer
+

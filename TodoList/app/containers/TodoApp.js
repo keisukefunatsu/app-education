@@ -1,7 +1,6 @@
 import React, { Component, } from 'react';
 import { connect } from 'react-redux';
 import TodoList from '../components/TodoList'
-import { todo, todos } from '../reducers/todos'
 export default class TodoApp extends Component {
   static propTypes = {}
   static defaultProps = {}
@@ -11,11 +10,12 @@ export default class TodoApp extends Component {
     }
   }
   render() {
-    const { todo, id } = this.props;
+    const { todo, id, completed } = this.props;
       return (
         <TodoList
           todo={todo}
           id={id}
+          completed={completed}
         />
     )
   }
@@ -23,9 +23,10 @@ export default class TodoApp extends Component {
 
 function mapStateToProps(state) {
   return {
-    todo: state.todo,
-    id: state.id,
+    todo: state.todo.todo,
+    id: state.todo.id,
+    completed: state.todo.completed
   }
 }
-export default connect(mapStateToProps)(TodoApp)
+ export default connect(mapStateToProps)(TodoApp)
 
