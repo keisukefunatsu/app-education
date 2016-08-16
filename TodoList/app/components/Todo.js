@@ -10,10 +10,10 @@ import {
 
 export default class Todo extends Component {
   render(){
-    const { text } = this.props
+    const { text, completed } = this.props
     return (      
     <View>
-      <Text>
+      <Text style={ completed ? styles.completed : ''}>
         {text}
       </Text>
     </View>
@@ -21,3 +21,11 @@ export default class Todo extends Component {
     
   }
 }
+
+
+const styles = StyleSheet.create({
+  completed: {
+    textDecorationLine: 'line-through', 
+    textDecorationStyle: 'solid',
+  }
+})

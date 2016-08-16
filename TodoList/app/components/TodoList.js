@@ -19,19 +19,7 @@ export default class TodoList extends Component {
     }
   }
   render() {
-       const { todos } = this.props;
-       const todoap = ({ todos }) => (
-        <View>
-          {todos.map((todo, index) =>
-            <Todo
-              key={index}
-              text={todo.text}
-              {...todo}
-            />
-          )}
-        </View>
-      )
-
+      const { todos } = this.props;
       return (
       <View style={styles.container}>                
         <View>          
@@ -39,6 +27,7 @@ export default class TodoList extends Component {
             <Todo
               key={index}
               text={todo.text}
+              completed={todo.completed}
               {...todo}
             />
           )}
