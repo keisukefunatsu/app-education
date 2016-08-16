@@ -21,7 +21,6 @@ export default class Todo extends Component {
       </TouchableHighlight>
     </View>
     )
-    
   }
 }
 

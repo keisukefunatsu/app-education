@@ -5,7 +5,7 @@ import reducer from '../reducers';
 import TodoApp from './TodoApp';
 import todo from '../reducers/todos'
 
-store = createStore(reducer)
+let store = createStore(reducer)
 export default class App extends Component {
   constructor(props) {
     super(props)
