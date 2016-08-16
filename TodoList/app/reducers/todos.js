@@ -7,14 +7,16 @@ export default function todo( state = {}, action = {}) {
         text: action.text,
         completed: false,
       }
-    case 'TOGGLE_TODO':
-      if (state.id !== action.id){
+   case 'TOGGLE_TODO':
+      if (state.id !== action.id) {
         return state
       }
-      return Object.assign({},state, {
+
+      return Object.assign({}, state, {
         completed: !state.completed
-      })        
-    default: 
+      })
+
+    default:
       return state
   }   
 }
@@ -29,10 +31,10 @@ export default function todos( state = [], action = {}) {
         todo(undefined, action)
       ]
     case 'TOGGLE_TODO':
-      return state.map(t => 
+      return state.map(t =>
         todo(t, action)
       )
-    default: 
+    default:
       return state
-  }   
+  } 
 }

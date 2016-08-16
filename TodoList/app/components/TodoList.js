@@ -6,7 +6,6 @@ import {
   TextInput,
   TouchableHighlight,
 } from 'react-native'
-import { addTodo } from '../actions/index';
 import Todo from './Todo';
 
 export default class TodoList extends Component {
@@ -19,17 +18,17 @@ export default class TodoList extends Component {
     }
   }
   render() {
-      const { todos } = this.props;
+      const { todos, submitTask } = this.props;
       return (
       <View style={styles.container}>                
         <View>          
           {todos.map((todo, index) =>
             <Todo
-              key={index}
-              text={todo.text}
-              completed={todo.completed}
               {...todo}
-            />
+              key={todo.id}
+              text={todo.text}
+              completed={todo.completed}                        
+            />       
           )}
           <TextInput
           style={styles.input}
@@ -37,7 +36,8 @@ export default class TodoList extends Component {
           placeholderTextColor={"rgba(198,198,204,1)"}
           onChangeText={(text) => {this.setState({text})}}
           onSubmitEditing={() => {
-              store.dispatch(addTodo(this.state.text))
+              submitTask(this.state.text)
+              console.log(todos)
               this.setState({text: ''})              
             }}
           value={(this.state && this.state.text) || ''}

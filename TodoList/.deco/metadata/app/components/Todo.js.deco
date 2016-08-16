@@ -1,0 +1,37 @@
+{
+	"liveValues": [
+		{
+			"range": {
+				"from": {
+					"line": 18,
+					"ch": 23
+				},
+				"to": {
+					"line": 18,
+					"ch": 25
+				}
+			},
+			"type": "number",
+			"name": "ActiveOpacity",
+			"min": 0,
+			"max": 100,
+			"group": "TOUCHABLE HIGHLIGHT"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 19,
+					"ch": 23
+				},
+				"to": {
+					"line": 19,
+					"ch": 41
+				}
+			},
+			"editWith": "colorPicker",
+			"type": "string",
+			"name": "UnderlayColor",
+			"group": "TOUCHABLE HIGHLIGHT"
+		}
+	]
+}

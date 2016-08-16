@@ -1,6 +1,8 @@
 import React, { Component, } from 'react';
 import { connect } from 'react-redux';
 import TodoList from '../components/TodoList'
+import { addTodo } from '../actions/index';
+import { toggleTodo } from '../actions/index';
 export default class TodoApp extends Component {
   static propTypes = {}
   static defaultProps = {}
@@ -10,10 +12,11 @@ export default class TodoApp extends Component {
     }
   }
   render() {
-    const { todos } = this.props;
+    const { todos, submitTask } = this.props;
       return (
         <TodoList
           todos={todos}
+          submitTask={submitTask}
         />
     )
   }
@@ -24,5 +27,19 @@ function mapStateToProps(state) {
     todos: state.todos
   }
 }
- export default connect(mapStateToProps)(TodoApp)
+
+function mapDispatchToProps(dispatch) {
+  return {
+    submitTask: (text) => {
+      dispatch(addTodo(text))
+    },
+    onTodoClick: (id) => {
+      dispatch(toggleTodo(id))
+    }
+  }
+}
+ export default connect(
+   mapStateToProps,
+   mapDispatchToProps,
+ )(TodoApp)
 
