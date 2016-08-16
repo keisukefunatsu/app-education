@@ -18,19 +18,11 @@ export default class TodoList extends Component {
     }
   }
   render() {
-      const { todos, submitTask } = this.props;
+      const { todos, submitTask, onTodoClick} = this.props;
       return (
       <View style={styles.container}>                
-        <View>          
-          {todos.map((todo, index) =>
-            <Todo
-              {...todo}
-              key={todo.id}
-              text={todo.text}
-              completed={todo.completed}                        
-            />       
-          )}
-          <TextInput
+        <View>       
+           <TextInput
           style={styles.input}
           placeholder={ 'tasks?' }
           placeholderTextColor={"rgba(198,198,204,1)"}
@@ -42,6 +34,16 @@ export default class TodoList extends Component {
             }}
           value={(this.state && this.state.text) || ''}
         />
+          {todos.map((todo) =>
+            <Todo              
+              key={todo.id}
+              text={todo.text}
+              completed={todo.completed}
+              {...todo}
+              onPress={() => onTodoClick(todo.id)}
+            />       
+          )}
+         
         </View>        
       </View>
     )

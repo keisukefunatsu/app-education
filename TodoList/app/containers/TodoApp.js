@@ -12,11 +12,12 @@ export default class TodoApp extends Component {
     }
   }
   render() {
-    const { todos, submitTask } = this.props;
+    const { todos, submitTask, onTodoClick } = this.props;
       return (
         <TodoList
           todos={todos}
           submitTask={submitTask}
+          onTodoClick={onTodoClick}
         />
     )
   }
