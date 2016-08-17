@@ -30,7 +30,7 @@ export default class TodoList extends Component {
            <TextInput
           style={styles.input}
           placeholder={ 'tasks?' }
-          placeholderTextColor={"rgba(198,198,204,1)"}
+          placeholderTextColor={"rgba(192,192,198,1)"}
           onChangeText={(text) => {this.setState({text})}}
           onSubmitEditing={() => {
               submitTask(this.state.text)
@@ -53,6 +53,7 @@ export default class TodoList extends Component {
           />       
         )}
         </View> 
+        <View style={styles.toggle}>
         <TouchableHighlight
         onPress={() => {
               store.dispatch(setVisibilityFilter('SHOW_COMPLETED'))
@@ -60,8 +61,18 @@ export default class TodoList extends Component {
             }}
         activeOpacity={75 / 100}
         underlayColor={"rgb(210,210,210)"}>
-        <Text>press</Text>        
-      </TouchableHighlight>       
+        <Text>show completed</Text>        
+      </TouchableHighlight>  
+      <TouchableHighlight
+        onPress={() => {
+              store.dispatch(setVisibilityFilter('SHOW_ACTIVE'))
+              console.log(store.getState())
+            }}
+        activeOpacity={75 / 100}
+        underlayColor={"rgb(210,210,210)"}>
+        <Text>show active</Text>        
+      </TouchableHighlight>    
+       </View>   
       </View>
     )
   }
@@ -85,5 +96,8 @@ const styles = StyleSheet.create({
   inputarea: {
     flex: 1,
     justifyContent: 'center',
-}
+  },
+  toggle: {
+    flex: 1,
+  }
 });

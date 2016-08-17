@@ -25,10 +25,19 @@ export default class TodoApp extends Component {
   }
 }
 
+function getVisibleTodos(todos, filter) {
+  switch(filter) {
+    case 'SHOW_ALL':
+      return todos
+    case 'SHOW_COMPLETED':  
+      return todos.filter((t) => t.completed)
+    case 'SHOW_ACTIVE':  
+     return todos.filter((t) => !t.completed)
+  }
+}
 function mapStateToProps(state) {
   return {
-    todos: state.todos,
-    filter: state.filter
+    todos: getVisibleTodos(state.todos, state.visibilityFilter)
   }
 }
 
@@ -39,9 +48,6 @@ function mapDispatchToProps(dispatch) {
     },
     onTodoClick: (id) => {
       dispatch(toggleTodo(id))
-    },
-    setVisibilityFilter: (filter) => {
-      dispatch(setVisibilityFilter(filter))
     },
   }
 }
