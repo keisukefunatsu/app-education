@@ -55,7 +55,7 @@ export default class TodoList extends Component {
         </View> 
         <TouchableHighlight
         onPress={() => {
-              setVisibilityFilter('SHOW_COMPLETED')
+              store.dispatch(setVisibilityFilter('SHOW_COMPLETED'))
               console.log(store.getState())
             }}
         activeOpacity={75 / 100}

@@ -27,7 +27,8 @@ export default class TodoApp extends Component {
 
 function mapStateToProps(state) {
   return {
-    todos: state.todos
+    todos: state.todos,
+    filter: state.filter
   }
 }
 
