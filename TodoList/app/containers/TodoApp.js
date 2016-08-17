@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import TodoList from '../components/TodoList'
 import { addTodo } from '../actions/index';
 import { toggleTodo } from '../actions/index';
+import { setVisibilityFilter } from '../actions/index'
 export default class TodoApp extends Component {
   static propTypes = {}
   static defaultProps = {}
@@ -18,6 +19,7 @@ export default class TodoApp extends Component {
           todos={todos}
           submitTask={submitTask}
           onTodoClick={onTodoClick}
+          setVisibilityFilter={setVisibilityFilter}
         />
     )
   }
@@ -36,7 +38,10 @@ function mapDispatchToProps(dispatch) {
     },
     onTodoClick: (id) => {
       dispatch(toggleTodo(id))
-    }
+    },
+    setVisibilityFilter: (filter) => {
+      dispatch(setVisibilityFilter(filter))
+    },
   }
 }
  export default connect(

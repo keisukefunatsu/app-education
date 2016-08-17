@@ -5,6 +5,11 @@ import {
   StyleSheet,
   TextInput,
   TouchableHighlight,
+  ScrollView,
+  MapView,
+  DatePickerIOS,
+  ActivityIndicatorIOS,
+  Modal,
 } from 'react-native'
 import Todo from './Todo';
 
@@ -18,10 +23,10 @@ export default class TodoList extends Component {
     }
   }
   render() {
-      const { todos, submitTask, onTodoClick} = this.props;
+      const { todos, submitTask, onTodoClick, setVisibilityFilter} = this.props;
       return (
-      <View style={styles.container}>                
-        <View>       
+      <View style={styles.container}> 
+        <View style={styles.inputarea}>
            <TextInput
           style={styles.input}
           placeholder={ 'tasks?' }
@@ -34,17 +39,29 @@ export default class TodoList extends Component {
             }}
           value={(this.state && this.state.text) || ''}
         />
-          {todos.map((todo) =>
-            <Todo              
-              key={todo.id}
-              text={todo.text}
-              completed={todo.completed}
-              {...todo}
-              onPress={() => onTodoClick(todo.id)}
-            />       
-          )}
-         
-        </View>        
+        </View> 
+        <View style={{
+            flex: 1,
+          }}> 
+        {todos.map((todo) =>
+          <Todo              
+            key={todo.id}
+            text={todo.text}
+            completed={todo.completed}
+            {...todo}
+            onPress={() => onTodoClick(todo.id)}
+          />       
+        )}
+        </View> 
+        <TouchableHighlight
+        onPress={() => {
+              setVisibilityFilter('SHOW_COMPLETED')
+              console.log(store.getState())
+            }}
+        activeOpacity={75 / 100}
+        underlayColor={"rgb(210,210,210)"}>
+        <Text>press</Text>        
+      </TouchableHighlight>       
       </View>
     )
   }
@@ -64,5 +81,9 @@ const styles = StyleSheet.create({
     borderColor: "rgba(0,0,0,0.5)",
     borderRadius: 5,
     textAlign: 'center',
-  }
+  },
+  inputarea: {
+    flex: 1,
+    justifyContent: 'center',
+}
 });
