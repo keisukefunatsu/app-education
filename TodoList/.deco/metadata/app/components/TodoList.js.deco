@@ -19,12 +19,12 @@
 		{
 			"range": {
 				"from": {
-					"line": 61,
-					"ch": 23
+					"line": 58,
+					"ch": 25
 				},
 				"to": {
-					"line": 61,
-					"ch": 25
+					"line": 58,
+					"ch": 27
 				}
 			},
 			"type": "number",
@@ -36,12 +36,45 @@
 		{
 			"range": {
 				"from": {
-					"line": 62,
-					"ch": 23
+					"line": 59,
+					"ch": 25
 				},
 				"to": {
-					"line": 62,
-					"ch": 41
+					"line": 59,
+					"ch": 43
+				}
+			},
+			"editWith": "colorPicker",
+			"type": "string",
+			"name": "UnderlayColor",
+			"group": "TOUCHABLE HIGHLIGHT"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 64,
+					"ch": 25
+				},
+				"to": {
+					"line": 64,
+					"ch": 27
+				}
+			},
+			"type": "number",
+			"name": "ActiveOpacity",
+			"min": 0,
+			"max": 100,
+			"group": "TOUCHABLE HIGHLIGHT"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 65,
+					"ch": 25
+				},
+				"to": {
+					"line": 65,
+					"ch": 43
 				}
 			},
 			"editWith": "colorPicker",
@@ -53,11 +86,11 @@
 			"range": {
 				"from": {
 					"line": 70,
-					"ch": 23
+					"ch": 25
 				},
 				"to": {
 					"line": 70,
-					"ch": 25
+					"ch": 27
 				}
 			},
 			"type": "number",
@@ -70,11 +103,11 @@
 			"range": {
 				"from": {
 					"line": 71,
-					"ch": 23
+					"ch": 25
 				},
 				"to": {
 					"line": 71,
-					"ch": 41
+					"ch": 43
 				}
 			},
 			"editWith": "colorPicker",
@@ -85,44 +118,11 @@
 		{
 			"range": {
 				"from": {
-					"line": 79,
-					"ch": 23
-				},
-				"to": {
-					"line": 79,
-					"ch": 25
-				}
-			},
-			"type": "number",
-			"name": "ActiveOpacity",
-			"min": 0,
-			"max": 100,
-			"group": "TOUCHABLE HIGHLIGHT"
-		},
-		{
-			"range": {
-				"from": {
-					"line": 80,
-					"ch": 23
-				},
-				"to": {
-					"line": 80,
-					"ch": 41
-				}
-			},
-			"editWith": "colorPicker",
-			"type": "string",
-			"name": "UnderlayColor",
-			"group": "TOUCHABLE HIGHLIGHT"
-		},
-		{
-			"range": {
-				"from": {
-					"line": 97,
+					"line": 88,
 					"ch": 12
 				},
 				"to": {
-					"line": 97,
+					"line": 88,
 					"ch": 14
 				}
 			},
@@ -133,11 +133,11 @@
 		{
 			"range": {
 				"from": {
-					"line": 98,
+					"line": 89,
 					"ch": 11
 				},
 				"to": {
-					"line": 98,
+					"line": 89,
 					"ch": 14
 				}
 			},
@@ -148,11 +148,11 @@
 		{
 			"range": {
 				"from": {
-					"line": 100,
+					"line": 91,
 					"ch": 17
 				},
 				"to": {
-					"line": 100,
+					"line": 91,
 					"ch": 34
 				}
 			},

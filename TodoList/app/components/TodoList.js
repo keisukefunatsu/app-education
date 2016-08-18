@@ -23,7 +23,7 @@ export default class TodoList extends Component {
     }
   }
   render() {
-      const { todos, submitTask, onTodoClick, setVisibilityFilter} = this.props;
+      const { todos, submitTask, onTodoClick, filterTodo} = this.props;
       return (
       <View style={styles.container}> 
         <View style={styles.inputarea}>
@@ -54,33 +54,24 @@ export default class TodoList extends Component {
         )}
         </View> 
         <View style={styles.toggle}>
+          <TouchableHighlight
+          onPress={() => filterTodo('SHOW_ALL')}
+          activeOpacity={75 / 100}
+          underlayColor={"rgb(210,210,210)"}>
+          <Text>show all</Text>        
+        </TouchableHighlight>  
+          <TouchableHighlight
+          onPress={() => filterTodo('SHOW_COMPLETED')}
+          activeOpacity={75 / 100}
+          underlayColor={"rgb(210,210,210)"}>
+          <Text>show completed</Text>        
+        </TouchableHighlight>  
         <TouchableHighlight
-        onPress={() => {
-              store.dispatch(setVisibilityFilter('SHOW_ALL'))
-              console.log(store.getState())
-            }}
-        activeOpacity={75 / 100}
-        underlayColor={"rgb(210,210,210)"}>
-        <Text>show all</Text>        
-      </TouchableHighlight>  
-        <TouchableHighlight
-        onPress={() => {
-              store.dispatch(setVisibilityFilter('SHOW_COMPLETED'))
-              console.log(store.getState())
-            }}
-        activeOpacity={75 / 100}
-        underlayColor={"rgb(210,210,210)"}>
-        <Text>show completed</Text>        
-      </TouchableHighlight>  
-      <TouchableHighlight
-        onPress={() => {
-              store.dispatch(setVisibilityFilter('SHOW_ACTIVE'))
-              console.log(store.getState())
-            }}
-        activeOpacity={75 / 100}
-        underlayColor={"rgb(210,210,210)"}>
-        <Text>show active</Text>        
-      </TouchableHighlight>    
+          onPress={() => filterTodo('SHOW_ACTIVE')}
+          activeOpacity={75 / 100}
+          underlayColor={"rgb(210,210,210)"}>
+          <Text>show active</Text>        
+        </TouchableHighlight>    
        </View>   
       </View>
     )

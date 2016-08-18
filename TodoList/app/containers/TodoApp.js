@@ -13,13 +13,13 @@ export default class TodoApp extends Component {
     }
   }
   render() {
-    const { todos, submitTask, onTodoClick } = this.props;
+    const { todos, submitTask, onTodoClick, filterTodo } = this.props;
       return (
         <TodoList
           todos={todos}
           submitTask={submitTask}
           onTodoClick={onTodoClick}
-          setVisibilityFilter={setVisibilityFilter}
+          filterTodo={filterTodo}
         />
     )
   }
@@ -48,6 +48,9 @@ function mapDispatchToProps(dispatch) {
     },
     onTodoClick: (id) => {
       dispatch(toggleTodo(id))
+    },
+    filterTodo: (filter) => {
+      dispatch(setVisibilityFilter(filter))
     },
   }
 }
