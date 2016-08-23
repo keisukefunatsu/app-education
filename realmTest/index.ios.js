@@ -12,25 +12,22 @@ import Realm from 'realm'
 import tcomb from 'tcomb-form-native'
 import { ListView } from 'realm/react-native';
 
-const CatSchema = {
-  name: 'Cat',
+const TaskSchema = {
+  name: 'Task',
   primaryKey: 'id',
   properties: {
     id: 'int',
     name: 'string',
-    birthplace: 'string',
-    sex: 'string',
-    type: 'string',
   }
 }
 
-let realm = new Realm({schema: [CatSchema], schemaVersion: 2})
+let realm = new Realm({schema: [TaskSchema], schemaVersion: 2})
 
 class realmTest extends Component {
   constructor(props) {
     super(props)
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    let src = realm.objects('Cat')
+    let src = realm.objects('Task')
     this.state = ({
       dataSource: ds.cloneWithRows(src),
       data:src
@@ -50,14 +47,11 @@ class realmTest extends Component {
       }
     }
      realm.write(() => {                
-      realm.create('Cat', {
+      realm.create('Task', {
         id: Utils.guid(),
-        name: this.state.text,
-        birthplace: 'kakogawa',
-        sex: 'male',
-        type: 'American Shorthair',              
+        name: this.state.text,            
       })
-    //                let allcats = realm.objects('Cat')
+    //                let allcats = realm.objects('Task')
     //                 realm.delete(allcats);
     })
   }
@@ -65,7 +59,7 @@ class realmTest extends Component {
   _deleteItem(id){
     realm.write(() => {
       console.log(id)
-      let item = realm.objects('Cat').filtered('id = $0',id)
+      let item = realm.objects('Task').filtered('id = $0',id)
       realm.delete(item)
     })  
   }
