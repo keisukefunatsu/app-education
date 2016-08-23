@@ -12,17 +12,7 @@ import Realm from 'realm'
 import tcomb from 'tcomb-form-native'
 import { ListView } from 'realm/react-native';
 
-const PersonSchema = {
-  name: 'Person',
-    properties: {
-      name: 'string',
-      birthday: 'date',
-      cats: {type: 'list' , objectType: 'Cat'},
-      picture: {type: 'data', optional: true},
-  }
-}
-
-const UpdatedCatSchema = {
+const CatSchema = {
   name: 'Cat',
   primaryKey: 'id',
   properties: {
@@ -34,7 +24,7 @@ const UpdatedCatSchema = {
   }
 }
 
-let realm = new Realm({schema: [UpdatedCatSchema, PersonSchema], schemaVersion: 2})
+let realm = new Realm({schema: [CatSchema], schemaVersion: 2})
 
 class realmTest extends Component {
   constructor(props) {
@@ -45,7 +35,7 @@ class realmTest extends Component {
       dataSource: ds.cloneWithRows(src),
       data:src
     });
-    this._deleteItem = this._deleteItem.bind
+    this._renderRow = this._renderRow.bind(this)
   }
   
    _updateData(){ 
@@ -54,34 +44,39 @@ class realmTest extends Component {
     });
   } 
   _createData(){
-   realm.write(() => {     
-           let maxId = realm.objects('Cat').length
-           realm.create('Cat', {
-              id: maxId += 1,
-              name: this.state.text,
-              birthplace: 'kakogawa',
-              sex: 'male',
-              type: 'American Shorthair',              
-            })
-//                let allcats = realm.objects('Cat')
-//                 realm.delete(allcats);
-          })
-  }
-  _deleteItem(id){
-    realm.write(() => {
-      let item = realm.objects('Cat').filterd('id' == id)
-      realm.delete(item)
-    })  
+    let Utils = {
+      guid: function() {
+        return Math.floor( Math.random() * 1000000000 );
+      }
+    }
+     realm.write(() => {                
+      realm.create('Cat', {
+        id: Utils.guid(),
+        name: this.state.text,
+        birthplace: 'kakogawa',
+        sex: 'male',
+        type: 'American Shorthair',              
+      })
+    //                let allcats = realm.objects('Cat')
+    //                 realm.delete(allcats);
+    })
   }
   
-  _onpressCatData(){
-    console.log('It works~')
+  _deleteItem(id){
+    realm.write(() => {
+      console.log(id)
+      let item = realm.objects('Cat').filtered('id = $0',id)
+      realm.delete(item)
+    })  
   }
   _renderRow(rowData) {
     return (
       <View style={{marginTop:10}}>
         <TouchableHighlight
-          onPress={() => {this._deleteItem(rowData.id)}}
+          onPress={() => {
+            this._deleteItem(rowData.id)
+            this._updateData()
+          }}
           activeOpacity={75 / 100}
           underlayColor={"rgb(210,210,210)"}>
           <Text>
@@ -105,7 +100,7 @@ class realmTest extends Component {
       <View style={styles.container}>       
         <View style={styles.input}>
           <Text style={styles.welcome}>
-          猫ちゃんの名前を入れてね       
+          お仕事の名前を入れてね            
           </Text>
           <TextInput
             style={{
