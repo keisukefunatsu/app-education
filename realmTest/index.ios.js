@@ -18,6 +18,8 @@ const TaskSchema = {
   properties: {
     id: 'int',
     name: 'string',
+//     completed: 'boolean',
+//     created_at: 'date',
   }
 }
 
@@ -27,7 +29,7 @@ class realmTest extends Component {
   constructor(props) {
     super(props)
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    let src = realm.objects('Task')
+    let src = realm.objects('Task').sorted('id')
     this.state = ({
       dataSource: ds.cloneWithRows(src),
       data:src
@@ -41,14 +43,16 @@ class realmTest extends Component {
     });
   } 
   _createData(){
-    let Utils = {
-      guid: function() {
-        return Math.floor( Math.random() * 1000000000 );
-      }
+    let tasks = realm.objects('Task')
+    if (tasks.length == 0) {
+      var maxId = 0
     }
-     realm.write(() => {                
+    else {
+      var maxId = tasks.sorted('id')[tasks.length - 1].id   
+    }        
+    realm.write(() => {                
       realm.create('Task', {
-        id: Utils.guid(),
+        id: maxId += 1,
         name: this.state.text,            
       })
     //                let allcats = realm.objects('Task')
@@ -94,7 +98,8 @@ class realmTest extends Component {
       <View style={styles.container}>       
         <View style={styles.input}>
           <Text style={styles.welcome}>
-          お仕事の名前を入れてね            
+          お仕事の名前を入れてね       
+            { }
           </Text>
           <TextInput
             style={{
