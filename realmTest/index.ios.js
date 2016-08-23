@@ -7,6 +7,7 @@ import {
   View,
   TextInput,
   TouchableHighlight,
+  Switch,
 } from 'react-native'
 import Realm from 'realm'
 import tcomb from 'tcomb-form-native'
@@ -18,12 +19,21 @@ const TaskSchema = {
   properties: {
     id: 'int',
     name: 'string',
-//     completed: 'boolean',
-//     created_at: 'date',
   }
 }
 
-let realm = new Realm({schema: [TaskSchema], schemaVersion: 2})
+const TaskSchema2 = {
+  name: 'Task',
+  primaryKey: 'id',
+  properties: {
+    id: 'int',
+    name: 'string',
+    completed: 'bool',
+    created_at: 'date',
+  }
+}
+
+let realm = new Realm({schema: [TaskSchema2], schemaVersion: 3})
 
 class realmTest extends Component {
   constructor(props) {
@@ -32,7 +42,7 @@ class realmTest extends Component {
     let src = realm.objects('Task').sorted('id')
     this.state = ({
       dataSource: ds.cloneWithRows(src),
-      data:src
+      data:src,
     });
     this._renderRow = this._renderRow.bind(this)
   }
@@ -44,6 +54,7 @@ class realmTest extends Component {
   } 
   _createData(){
     let tasks = realm.objects('Task')
+    let date = new Date()
     if (tasks.length == 0) {
       var maxId = 0
     }
@@ -53,26 +64,28 @@ class realmTest extends Component {
     realm.write(() => {                
       realm.create('Task', {
         id: maxId += 1,
-        name: this.state.text,            
+        name: this.state.text, 
+        completed: false,
+        created_at: date,              
       })
-    //                let allcats = realm.objects('Task')
-    //                 realm.delete(allcats);
+//                    let allcats = realm.objects('Task')
+//                     realm.delete(allcats);
     })
   }
   
-  _deleteItem(id){
+  _completeItem(id){
     realm.write(() => {
-      console.log(id)
-      let item = realm.objects('Task').filtered('id = $0',id)
-      realm.delete(item)
+      let item = realm.objects('Task').filtered('id = $0',id)[0]
+      item.completed = !item.completed
     })  
+    
   }
-  _renderRow(rowData) {
+  _renderRow(rowData) {    
     return (
       <View style={{marginTop:10}}>
         <TouchableHighlight
           onPress={() => {
-            this._deleteItem(rowData.id)
+            this._completeItem(rowData.id)
             this._updateData()
           }}
           activeOpacity={75 / 100}
@@ -80,11 +93,10 @@ class realmTest extends Component {
           <Text>
             <View style={{
                 width: 250,
-                height: 40,                
+                height: 30,                
                 borderBottomWidth: 1,
               }}>
-              <Text>名前：{rowData.name}</Text>
-              <Text>ID：{rowData.id}</Text>                            
+              <Text style={rowData.completed? styles.completed : ''}>{rowData.name}</Text>            
             </View>            
           </Text>       
         </TouchableHighlight>
@@ -93,7 +105,26 @@ class realmTest extends Component {
     )
   }
 
+  _hideCompleted(){              
+    let data = realm.objects('Task').filtered('completed == true')
+    this.setState({
+      data: data,
+      dataSource: this.state.dataSource.cloneWithRows(this.state.data)
+    })
+    console.log(this.state.data)
+  }
+  
+  _showCompleted(){              
+    let data = realm.objects('Task').filtered('completed == false')
+    this.setState({
+      data: data,
+      dataSource: this.state.dataSource.cloneWithRows(this.state.data)
+    })
+    console.log(this.state.data)
+  }
+
   render() {
+   
     return (
       <View style={styles.container}>       
         <View style={styles.input}>
@@ -120,6 +151,20 @@ class realmTest extends Component {
             value={(this.state && this.state.text) || ''}
           />
         </View>
+        <Switch
+          value={(this.state && this.state.switchValue) || false}
+          onValueChange={(value) => {
+            this.setState({switchValue: value})
+             if (this.state.switchValue == true) {
+              this._hideCompleted()
+             }
+              else {
+                this._showCompleted()
+              }
+          }}
+          tintColor={"rgba(230,230,230,1)"}
+          onTintColor={"rgba(68,219,94,1)"}
+        />
         <View style={styles.list}>
            <ListView
             enableEmptySections={true}
@@ -147,7 +192,11 @@ const styles = StyleSheet.create({
   list: {
     flex: 4,
     justifyContent: 'center',
-  }
+  },
+  completed: {
+    textDecorationLine: 'line-through', 
+    textDecorationStyle: 'solid',
+  },
 });
 
 AppRegistry.registerComponent('realmTest', () => realmTest);

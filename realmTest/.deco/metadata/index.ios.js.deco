@@ -3,11 +3,11 @@
 		{
 			"range": {
 				"from": {
-					"line": 77,
+					"line": 90,
 					"ch": 25
 				},
 				"to": {
-					"line": 77,
+					"line": 90,
 					"ch": 27
 				}
 			},
@@ -20,11 +20,11 @@
 		{
 			"range": {
 				"from": {
-					"line": 78,
+					"line": 91,
 					"ch": 25
 				},
 				"to": {
-					"line": 78,
+					"line": 91,
 					"ch": 43
 				}
 			},
@@ -36,11 +36,11 @@
 		{
 			"range": {
 				"from": {
-					"line": 105,
+					"line": 136,
 					"ch": 22
 				},
 				"to": {
-					"line": 105,
+					"line": 136,
 					"ch": 24
 				}
 			},
@@ -51,11 +51,11 @@
 		{
 			"range": {
 				"from": {
-					"line": 106,
+					"line": 137,
 					"ch": 21
 				},
 				"to": {
-					"line": 106,
+					"line": 137,
 					"ch": 24
 				}
 			},
@@ -66,11 +66,11 @@
 		{
 			"range": {
 				"from": {
-					"line": 108,
+					"line": 139,
 					"ch": 27
 				},
 				"to": {
-					"line": 108,
+					"line": 139,
 					"ch": 44
 				}
 			},
@@ -82,11 +82,11 @@
 		{
 			"range": {
 				"from": {
-					"line": 111,
+					"line": 142,
 					"ch": 25
 				},
 				"to": {
-					"line": 111,
+					"line": 142,
 					"ch": 36
 				}
 			},
@@ -98,11 +98,11 @@
 		{
 			"range": {
 				"from": {
-					"line": 112,
+					"line": 143,
 					"ch": 34
 				},
 				"to": {
-					"line": 112,
+					"line": 143,
 					"ch": 55
 				}
 			},
@@ -110,6 +110,38 @@
 			"type": "string",
 			"name": "PlaceholderTextColor",
 			"group": "TEXT INPUT"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 164,
+					"ch": 21
+				},
+				"to": {
+					"line": 164,
+					"ch": 42
+				}
+			},
+			"editWith": "colorPicker",
+			"type": "string",
+			"name": "TintColor",
+			"group": "SWITCH"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 165,
+					"ch": 23
+				},
+				"to": {
+					"line": 165,
+					"ch": 42
+				}
+			},
+			"editWith": "colorPicker",
+			"type": "string",
+			"name": "OnTintColor",
+			"group": "SWITCH"
 		}
 	]
 }
