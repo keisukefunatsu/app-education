@@ -8,6 +8,8 @@ import {
   TextInput,
 } from 'react-native'
 import Realm from 'realm'
+import tcomb from 'tcomb-form-native'
+import { ListView } from 'realm/react-native';
 
 class realmTest extends Component {
   
@@ -15,18 +17,30 @@ class realmTest extends Component {
     super(props)
   }
   render() {
-    let realm = new Realm({
-      schema: [{
-          name:'Member',
-            properties: {
-                name: 'string'
-            }
-      }]
-    })
+  const CatSchema = {
+    name: 'Cat',
+    properties: {
+      birthplace: 'string',
+      sex: 'string',
+      type: 'string',
+    }
+  }
+  
+  const PersonSchema = {
+    name: 'Person',
+      properties: {
+        name: 'string',
+        birthday: 'date',
+        cats: {type: 'list' , objectType: 'Cat'},
+        picture: {type: 'data', optional: true},
+    }
+  }
+  let realm = new Realm({schema: [CatSchema, PersonSchema]})
+  
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Count of members in Realm: {realm.objects('Member').length}
+          Count of members in Realm: {realm.objects('Cat').length}
         </Text>
         <View>
           <TextInput
@@ -39,16 +53,20 @@ class realmTest extends Component {
             placeholder={'Type here'}
             placeholderTextColor={"rgba(198,198,204,1)"}
             onChangeText={(text) => {this.setState({text})}}
-            onSubmitEditing={(text) => {
-              realm.write(() => {
-                realm.create('Member', {name: this.state.text})
+            onSubmitEditing={() => {
+              realm.write(() => {                 
+                realm.create('Cat', {
+                  birthplace: 'kakogawa',
+                  sex: 'male',
+                  type: 'American Shorthair',              
+                })
               })
               this.setState({text: ''})
             }}
             value={(this.state && this.state.text) || ''}
           />
         </View>
-        
+       
       </View>
     );
   }
