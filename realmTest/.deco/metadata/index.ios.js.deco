@@ -3,11 +3,44 @@
 		{
 			"range": {
 				"from": {
-					"line": 47,
+					"line": 84,
+					"ch": 25
+				},
+				"to": {
+					"line": 84,
+					"ch": 27
+				}
+			},
+			"type": "number",
+			"name": "ActiveOpacity",
+			"min": 0,
+			"max": 100,
+			"group": "TOUCHABLE HIGHLIGHT"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 85,
+					"ch": 25
+				},
+				"to": {
+					"line": 85,
+					"ch": 43
+				}
+			},
+			"editWith": "colorPicker",
+			"type": "string",
+			"name": "UnderlayColor",
+			"group": "TOUCHABLE HIGHLIGHT"
+		},
+		{
+			"range": {
+				"from": {
+					"line": 111,
 					"ch": 22
 				},
 				"to": {
-					"line": 47,
+					"line": 111,
 					"ch": 24
 				}
 			},
@@ -18,11 +51,11 @@
 		{
 			"range": {
 				"from": {
-					"line": 48,
+					"line": 112,
 					"ch": 21
 				},
 				"to": {
-					"line": 48,
+					"line": 112,
 					"ch": 24
 				}
 			},
@@ -33,11 +66,11 @@
 		{
 			"range": {
 				"from": {
-					"line": 50,
+					"line": 114,
 					"ch": 27
 				},
 				"to": {
-					"line": 50,
+					"line": 114,
 					"ch": 44
 				}
 			},
@@ -49,11 +82,11 @@
 		{
 			"range": {
 				"from": {
-					"line": 52,
+					"line": 117,
 					"ch": 25
 				},
 				"to": {
-					"line": 52,
+					"line": 117,
 					"ch": 36
 				}
 			},
@@ -65,11 +98,11 @@
 		{
 			"range": {
 				"from": {
-					"line": 53,
+					"line": 118,
 					"ch": 34
 				},
 				"to": {
-					"line": 53,
+					"line": 118,
 					"ch": 55
 				}
 			},
