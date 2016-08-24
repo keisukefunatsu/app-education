@@ -29,10 +29,11 @@ class realmPlayground extends Component {
   constructor(props) {
     super(props)
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    let src = realm.objects('Task').sorted('id')
+    let src = realm.objects('Task').sorted('id').filtered('completed == false')
     this.state = ({
       dataSource: ds.cloneWithRows(src),
       data:src,
+      switchValue: false,
     });
     this._renderRow = this._renderRow.bind(this)
   }
@@ -62,7 +63,7 @@ class realmPlayground extends Component {
 //                    let allcats = realm.objects('Task')
 //                     realm.delete(allcats);
     })
-    let data = realm.objects('Task')
+    let data = realm.objects('Task').filtered('completed == false')
     this._updateData(data)
   }
 
@@ -70,11 +71,12 @@ class realmPlayground extends Component {
     realm.write(() => {
       var item = realm.objects('Task').filtered('id = $0',id)[0]
       item.completed = !item.completed
+      console.log(item.completed)
        if (this.state.switchValue == true) {
-        var data = realm.objects('Task').filtered('completed == false')
+        var data = realm.objects('Task').filtered('completed == true')
       }
       else {
-        var data = realm.objects('Task').filtered('completed == true')
+        var data = realm.objects('Task').filtered('completed == false')
       }
       this._updateData(data)
     })  
@@ -102,26 +104,36 @@ class realmPlayground extends Component {
     )
   }
 
-  _hideCompleted(){
-    let data = realm.objects('Task').filtered('completed == false')
-    this._updateData(data)
-    console.log(data)
-    console.log(this.state.switchValue)
-    console.log('hide')
-  }
-
   _showCompleted(){
     let data = realm.objects('Task').filtered('completed == true')
     this._updateData(data)
-    console.log(data)
     console.log(this.state.switchValue)
-    console.log('show')
+    console.log('completed')
+  }
+
+  _showActive(){
+    let data = realm.objects('Task').filtered('completed == false')
+    this._updateData(data)
+    console.log(this.state.switchValue)
+    console.log('active')
   }
 
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.input}>
+          <TouchableHighlight
+            onPress={() => {
+              for(i = 0; i < 1000; i++){
+                this._createData()
+                console.log(i)
+              }
+                
+            }}
+            activeOpacity={75 / 100}
+            underlayColor={"rgb(210,210,210)"}>
+            <Text>Press</Text>
+          </TouchableHighlight>
           <Text style={styles.welcome}>
           お仕事の名前を入れてね
           </Text>
@@ -148,12 +160,11 @@ class realmPlayground extends Component {
           onValueChange={(value) => {
             this.setState({switchValue: value})
             if (this.state.switchValue == true) {
+              this._showActive()
+             }
+            else {
               this._showCompleted()
-             }
-              else {
-                this._hideCompleted()
-             }
-
+           }
           }}
           tintColor={"rgba(230,230,230,1)"}
           onTintColor={"rgba(68,219,94,1)"}
