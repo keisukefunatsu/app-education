@@ -40,7 +40,7 @@ class realmPlayground extends Component {
    _updateData(data){
     this.setState({
       data:data,
-      dataSource: this.state.dataSource.cloneWithRows(this.state.data),
+      dataSource: this.state.dataSource.cloneWithRows(data),
     });
   }
   _createData(){
@@ -68,11 +68,16 @@ class realmPlayground extends Component {
 
   _completeItem(id){
     realm.write(() => {
-      let item = realm.objects('Task').filtered('id = $0',id)[0]
+      var item = realm.objects('Task').filtered('id = $0',id)[0]
       item.completed = !item.completed
-    })
-    let data = realm.objects('Task')
-    this._updateData(data)
+       if (this.state.switchValue == true) {
+        var data = realm.objects('Task').filtered('completed == false')
+      }
+      else {
+        var data = realm.objects('Task').filtered('completed == true')
+      }
+      this._updateData(data)
+    })  
   }
   _renderRow(rowData) {
     return (
@@ -89,7 +94,7 @@ class realmPlayground extends Component {
                 height: 30,
                 borderBottomWidth: 1,
               }}>
-              <Text style={rowData.completed? styles.completed : ''}>{rowData.name}</Text>
+              <Text style={rowData.completed? styles.completed : ''}>{rowData.id}:{rowData.name}</Text>
             </View>
           </Text>
         </TouchableHighlight>
