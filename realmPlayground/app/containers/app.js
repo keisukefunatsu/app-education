@@ -14,7 +14,7 @@ import RealmTodo from '../components/realmTodo'
 import Realm from 'realm'
 import { ListView } from 'realm/react-native'
 import ScrollableTabView from 'react-native-scrollable-tab-view'
-import Test from '../components/test'
+
 
 const TodoSchema = {
   name: 'Task',

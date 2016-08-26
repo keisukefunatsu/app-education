@@ -23,37 +23,35 @@ const TodoSchema = {
 }
 
 let realm = new Realm({schema: [TodoSchema]})
+let tasks = realm.objects('Task')
 
 export default class RealmTodo extends Component {
+  data(text){
+      if (text == 'show_completed') {
+        return tasks.filtered('completed == true')
+      }
+      else if (text == 'show_active') {
+        return tasks.filtered('completed == false')
+      }
+      else if (text == 'show_all') {
+        return tasks
+      }
+      else {
+        return tasks
+      }
+    }
   constructor(props) {
     super(props)
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});    
-     if (this.props.visibility == 'show_completed') {
-        var data = realm.objects('Task').filtered('completed == true')
-      }
-      else if (this.props.visibility == 'show_active') {
-        var data = realm.objects('Task').filtered('completed == false')
-      }
-      else if (this.props.visibility == 'show_all') {
-        var data = realm.objects('Task')
-      }
     this.state = ({
-      dataSource: ds.cloneWithRows(data),
-      data:data,
+      dataSource: ds.cloneWithRows(this.data(this.props.visibility)),
+      data:this.data(this.props.visibility),
     });
     this._renderRow = this._renderRow.bind(this)
   }
 
   componentWillReceiveProps(){
-   if (this.props.visibility == 'show_completed') {
-      var data = realm.objects('Task').filtered('completed == true')
-    }
-    else if (this.props.visibility == 'show_active') {
-      var data = realm.objects('Task').filtered('completed == false')
-    }
-    else if (this.props.visibility == 'show_all') {
-      var data = realm.objects('Task')
-    }
+    let data = this.data(this.props.visibility)
     this._updateData(data)
   }
    _updateData(data){
@@ -63,7 +61,6 @@ export default class RealmTodo extends Component {
     });
   }
   _createData(){
-    let tasks = realm.objects('Task')
     let date = new Date()
     if (tasks.length == 0) {
       var maxId = 0
@@ -81,15 +78,7 @@ export default class RealmTodo extends Component {
 //                    let allcats = realm.objects('Task')
 //                     realm.delete(allcats);
     })
-    if (this.props.visibility == 'show_completed') {
-        var data = realm.objects('Task').filtered('completed == true')
-      }
-      else if (this.props.visibility == 'show_active') {
-        var data = realm.objects('Task').filtered('completed == false')
-      }
-      else if (this.props.visibility == 'show_all') {
-        var data = realm.objects('Task')
-      }
+    let data = this.data(this.props.visibility)
     this._updateData(data)
   }
 
@@ -97,15 +86,7 @@ export default class RealmTodo extends Component {
     realm.write(() => {
       var item = realm.objects('Task').filtered('id = $0',id)[0]
       item.completed = !item.completed
-       if (this.props.visibility == 'show_completed') {
-        var data = realm.objects('Task').filtered('completed == true')
-      }
-      else if (this.props.visibility == 'show_active') {
-        var data = realm.objects('Task').filtered('completed == false')
-      }
-      else if (this.props.visibility == 'show_all') {
-        var data = realm.objects('Task')
-      }
+      let data = this.data(this.props.visibility)
       this._updateData(data)
     })  
   }
