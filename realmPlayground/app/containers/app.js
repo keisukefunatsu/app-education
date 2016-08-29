@@ -8,13 +8,16 @@ import {
   TouchableHighlight,
   Switch,
   RefreshControl,
+  ScrollView,
 } from 'react-native'
 
 import RealmTodo from '../components/realmTodo'
 import Realm from 'realm'
 import { ListView } from 'realm/react-native'
-import ScrollableTabView from 'react-native-scrollable-tab-view'
+import ScrollableTabView, { DefaultTabBar, } from 'react-native-scrollable-tab-view';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
+const myIcon = (<Icon name="rocket" size={30} color="#900" />)
 
 const TodoSchema = {
   name: 'Task',
@@ -31,11 +34,12 @@ let realm = new Realm({schema: [TodoSchema]})
 
 export default class App extends Component {
   render() {
+    let text = <Text>fjdsifjdsio</Text>
     return (
-      <ScrollableTabView style={{marginTop: 20, }} tabBarPosition={'bottom'}>        
-        <RealmTodo tabLabel="Active"
-          visibility={'show_active'}
-          />
+      <ScrollableTabView style={{marginTop: 20, }} tabBarPosition={'bottom'} >
+        <RealmTodo tabLabel="dsds" visibility={'show_active'} iconName={'ion|ios-home-outline'}>
+          {myIcon}
+        </RealmTodo>
         <RealmTodo tabLabel="Completed"
           visibility={'show_completed'}
           />

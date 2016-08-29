@@ -22,11 +22,12 @@ const TodoSchema = {
   }
 }
 
+
 let realm = new Realm({schema: [TodoSchema]})
 let tasks = realm.objects('Task')
 
 export default class RealmTodo extends Component {
-  data(text){
+  getData(text){
       if (text == 'show_completed') {
         return tasks.filtered('completed == true')
       }
@@ -44,14 +45,14 @@ export default class RealmTodo extends Component {
     super(props)
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});    
     this.state = ({
-      dataSource: ds.cloneWithRows(this.data(this.props.visibility)),
-      data:this.data(this.props.visibility),
+      dataSource: ds.cloneWithRows(this.getData(this.props.visibility)),
+      data:this.getData(this.props.visibility),
     });
     this._renderRow = this._renderRow.bind(this)
   }
 
   componentWillReceiveProps(){
-    let data = this.data(this.props.visibility)
+    let data = this.getData(this.props.visibility)
     this._updateData(data)
   }
    _updateData(data){
@@ -75,18 +76,17 @@ export default class RealmTodo extends Component {
         completed: false,
         created_at: date,
       })
-//                    let allcats = realm.objects('Task')
-//                     realm.delete(allcats);
+//                     realm.delete(tasks;
     })
-    let data = this.data(this.props.visibility)
+    let data = this.getData(this.props.visibility)
     this._updateData(data)
   }
 
   _completeItem(id){
     realm.write(() => {
-      var item = realm.objects('Task').filtered('id = $0',id)[0]
+      var item = tasks.filtered('id = $0',id)[0]
       item.completed = !item.completed
-      let data = this.data(this.props.visibility)
+      let data = this.getData(this.props.visibility)
       this._updateData(data)
     })  
   }
@@ -100,12 +100,8 @@ export default class RealmTodo extends Component {
           activeOpacity={75 / 100}
           underlayColor={"rgb(210,210,210)"}>
           <Text>
-            <View style={{
-                width: 250,
-                height: 30,
-                borderBottomWidth: 1,
-              }}>
-              <Text style={rowData.completed? styles.completed : ''}>{rowData.id}:{rowData.name}</Text>
+            <View style={styles.items}>
+              <Text style={rowData.completed? styles.completed : styles.item }>{rowData.name}</Text>
             </View>
           </Text>
         </TouchableHighlight>
@@ -114,12 +110,12 @@ export default class RealmTodo extends Component {
   }
 
   _showCompleted(){
-    let data = realm.objects('Task').filtered('completed == true')
+    let data = tasks.filtered('completed == true')
     this._updateData(data)
   }
 
   _showActive(){
-    let data = realm.objects('Task').filtered('completed == false')
+    let data = tasks.filtered('completed == false')
     this._updateData(data)
   }
 
@@ -172,6 +168,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 5,
   },
   list: {
     flex: 4,
@@ -179,8 +176,19 @@ const styles = StyleSheet.create({
   },
   completed: {
     textDecorationLine: 'line-through',
-    textDecorationStyle: 'solid',
+    textDecorationStyle: 'solid',    
   },
+  items: {
+    width: 300,    
+    flexDirection: 'row',
+    height: 40,
+    borderBottomWidth: 1,
+    borderRadius: 5,    
+  },
+  item: {
+    fontSize: 16,
+    paddingLeft: 10,
+  }
 });
 
 AppRegistry.registerComponent('realmPlayground', () => realmPlayground);
