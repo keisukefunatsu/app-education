@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   AppRegistry,
   StyleSheet,
@@ -12,41 +12,29 @@ import {
 } from 'react-native'
 
 import RealmTodo from '../components/realmTodo'
-import Realm from 'realm'
 import { ListView } from 'realm/react-native'
-import ScrollableTabView, { DefaultTabBar, } from 'react-native-scrollable-tab-view';
-import Icon from 'react-native-vector-icons/FontAwesome';
-
-const myIcon = (<Icon name="rocket" size={30} color="#900" />)
-
-const TodoSchema = {
-  name: 'Task',
-  primaryKey: 'id',
-  properties: {
-    id: 'int',
-    name: 'string',
-    completed: 'bool',
-    created_at: 'date',
-  }
-}
-
-let realm = new Realm({schema: [TodoSchema]})
+import ScrollableTabView from 'react-native-scrollable-tab-view'
+import CustomTabbar from '../components/customTabBar'
 
 export default class App extends Component {
   render() {
-    let text = <Text>fjdsifjdsio</Text>
     return (
-      <ScrollableTabView style={{marginTop: 20, }} tabBarPosition={'bottom'} >
-        <RealmTodo tabLabel="dsds" visibility={'show_active'} iconName={'ion|ios-home-outline'}>
-          {myIcon}
-        </RealmTodo>
-        <RealmTodo tabLabel="Completed"
+      <ScrollableTabView style={{marginTop: 20, }} 
+        tabBarPosition='bottom'
+        initialPage={0}
+        renderTabBar={() => <CustomTabbar tabList={['Active', 'Completed', 'All']}/>}
+        >
+        <RealmTodo tabLabel={'navicon'} 
+          visibility={'show_active'} 
+        />
+        <RealmTodo tabLabel='check-square-o'
           visibility={'show_completed'}
           />
-        <RealmTodo tabLabel="All"
+        <RealmTodo tabLabel="list-alt"
           visibility={'show_all'}
           />
       </ScrollableTabView>
+      
     )
   }
 }

@@ -76,7 +76,8 @@ export default class RealmTodo extends Component {
         completed: false,
         created_at: date,
       })
-//                     realm.delete(tasks;
+//       テストデータ削除用
+      // realm.delete(tasks)
     })
     let data = this.getData(this.props.visibility)
     this._updateData(data)
