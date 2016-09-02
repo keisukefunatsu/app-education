@@ -15,11 +15,37 @@ import RealmTodo from '../components/realmTodo'
 import { ListView } from 'realm/react-native'
 import ScrollableTabView from 'react-native-scrollable-tab-view'
 import CustomTabbar from '../components/customTabBar'
+import {Actions, Scene, Router} from 'react-native-router-flux'
+import Drawer from 'react-native-drawer';
 
-export default class App extends Component {
+class TestClass extends Component {
+  render(){
+    const {title, subTitle,} = this.props
+    return(
+      <View style={{
+          flex: 1,
+          justifyContent: 'center',          
+        }}>
+        <Text style={{textAlign: 'center',}}>{this.props.text}</Text>       
+      </View>
+    )
+  }
+} 
+
+class TestDrawer extends Component {
+  render() {
+    const children = this.props.navigationState.children;
+    return(
+      <View>
+      
+      </View>
+    )
+  }
+}
+class TodoWithTab extends Component {
   render() {
     return (
-      <ScrollableTabView style={{marginTop: 20, }} 
+      <ScrollableTabView style={{marginTop: 40, borderTopWidth: 2, }} 
         tabBarPosition='bottom'
         initialPage={0}
         renderTabBar={() => <CustomTabbar tabList={['Active', 'Completed', 'All']}/>}
@@ -35,6 +61,19 @@ export default class App extends Component {
           />
       </ScrollableTabView>
       
+    )
+  }
+}
+
+export default class App extends Component {
+  render() {    
+    return (      
+     <Router>
+      <Scene key="root">        
+        <Scene key="start" component={TestClass} title="Start" text="page1" initial={true} onRight={() => Actions.todo()}  rightTitle="todo"/>
+        <Scene key="todo" component={TodoWithTab} title="Todo" text="page2" hideNavBar={false} />        
+        </Scene>
+    </Router>
     )
   }
 }
