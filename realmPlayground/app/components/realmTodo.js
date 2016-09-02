@@ -120,10 +120,23 @@ export default class RealmTodo extends Component {
     this._updateData(data)
   }
 
+  _create_manyData(){
+    for(i = 0; i < 1000; i++ ) {
+      this._createData()
+      console.log(i)
+    }
+    
+  }
   render() {
     return (      
       <View style={styles.container}>
         <View style={styles.input}>      
+          <TouchableHighlight
+            onPress={() => {this._create_manyData()}}
+            activeOpacity={75 / 100}
+            underlayColor={"rgb(210,210,210)"}>
+            <Text>Press</Text>
+          </TouchableHighlight>
           <Text style={styles.welcome}>
           お仕事の名前を入れてね
           </Text>   
