@@ -129,7 +129,7 @@ export default class RealmTodo extends Component {
   }
   render() {
     return (      
-      <View style={styles.container}>
+      <View style={styles.container}>       
         <View style={styles.input}>                
           <Text style={styles.welcome}>
           お仕事の名前を入れてね
@@ -152,7 +152,11 @@ export default class RealmTodo extends Component {
             value={(this.state && this.state.text) || ''}
           />
         </View>
-  
+         <TouchableHighlight
+          activeOpacity={75 / 100}
+          underlayColor={"rgb(210,210,210)"}>
+          <Text>戻る</Text>
+        </TouchableHighlight>
         <View style={styles.list}>
            <ListView
             enableEmptySections={true}

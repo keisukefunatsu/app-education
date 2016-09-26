@@ -1,14 +1,10 @@
 import React, { Component } from 'react'
 import {
-  AppRegistry,
   StyleSheet,
   Text,
   View,
   TextInput,
   TouchableHighlight,
-  Switch,
-  RefreshControl,
-  ScrollView,
   TouchableOpacity,
 } from 'react-native'
 
@@ -30,7 +26,7 @@ class TestDrawer extends Component {
     return (
     <Drawer
         ref={(ref) => this._drawer = ref}
-        content={<TestClass closeDrawer={this.closeDrawer}/>}
+        content={<TestPanel closeDrawer={this.closeDrawer}/>}
         tapToClose={true}        
         >
         <View style={{flex: 1,justifyContent: 'center',}}>        
@@ -49,7 +45,7 @@ class TestDrawer extends Component {
     )
   }
 }
-class TestClass extends Component {
+class TestPanel extends Component {
   render(){
     const {closeDrawer} = this.props
     return (
@@ -61,6 +57,9 @@ class TestClass extends Component {
         <Button onPress={closeDrawer}>
           go back to first page
         </Button>
+        <Button onPress={Actions.start}>
+          go back to first page(using router)
+        </Button>
       </View>
     )
   }
@@ -68,7 +67,6 @@ class TestClass extends Component {
 class TodoWithTab extends Component {
   render() {
     return (      
-      
       <ScrollableTabView style={{marginTop: 40, borderTopWidth: 2, }} 
         tabBarPosition='bottom'
         initialPage={0}
@@ -79,9 +77,11 @@ class TodoWithTab extends Component {
         />
         <RealmTodo tabLabel='check-square-o'
           visibility={'show_completed'}
+          
           />
         <RealmTodo tabLabel="list-alt"
           visibility={'show_all'}
+          
           />
       </ScrollableTabView>
       
@@ -92,7 +92,7 @@ class TodoWithTab extends Component {
 export default class App extends Component {
   render() {    
     return (      
-     <Router>
+    <Router>
       <Scene key="root">        
         <Scene key="start" component={TestDrawer} title="Start" text="page1" initial={true} onRight={() => Actions.todo()}  rightTitle="todo"/>
         <Scene key="todo" component={TodoWithTab} title="Todo" text="page2" hideNavBar={false} />        

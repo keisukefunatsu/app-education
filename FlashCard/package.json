@@ -1,0 +1,15 @@
+{
+  "name": "FlashCard",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start"
+  },
+  "dependencies": {
+    "install": "^0.8.1",
+    "npm": "^3.10.8",
+    "react": "15.3.2",
+    "react-native": "0.34.0",
+    "realm": "^0.14.3"
+  }
+}
