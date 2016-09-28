@@ -9,7 +9,8 @@
     "install": "^0.8.1",
     "npm": "^3.10.8",
     "react": "15.3.2",
-    "react-native": "0.34.0",
+    "react-native": "0.32.0",
+    "react-native-button": "^1.7.0",
     "realm": "^0.14.3"
   }
 }
