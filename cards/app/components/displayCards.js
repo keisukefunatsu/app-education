@@ -6,6 +6,7 @@ import {
   View
 } from 'react-native';
 import Button from 'react-native-button';
+import {Actions, Scene, Router} from 'react-native-router-flux'
 export default class DisplayCards extends Component { 
   
   constructor(props) {
@@ -27,13 +28,16 @@ export default class DisplayCards extends Component {
   }
   onPressCard(id){      
     const { card1, cards, realm } = this.props;
-    if (card1.id == id) {
-      let item = cards.filtered(`id=${id}`)[0];
+    let item = cards.filtered(`id=${id}`)[0];
+    if (card1.id == id) {      
       realm.write(() => {                  
         item.completed = !item.completed
-      })
+      })    
       this.props.refreshDisplay();
-    }      
+    }
+    else {
+      this.props.refreshDisplay();
+    } 
   }
     
     
@@ -48,13 +52,14 @@ export default class DisplayCards extends Component {
         </Text>
         {this.props.shuffledNumber.map((i) => {        
         return (<Button key={i} style={[ styles.card, this.returnCard(i)['style'] ]} onPress={() => {this.onPressCard(this.returnCard(i)['id'])}}>   
-          {this.returnCard(i)['id']} 
-          {this.returnCard(i)[ 'english' ]}  
           {this.returnCard(i)[ 'japanese' ]}  
         </Button>  );
         })}
         <Button style={[styles.card,styles.cardRefresh]} onPress={this.props.refreshDisplay}>
           問題更新
+        </Button>
+        <Button style={[styles.card,styles.cardRefresh]} onPress={Actions.initial}>
+          中断する
         </Button>
       </View>
     );

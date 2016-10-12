@@ -22,13 +22,13 @@ const flashCardSchemaBeta4 = {
     part: 'string',
     grade: 'string',
     completed: 'bool',
+    wrong: 'bool',
     created_at: 'date',
   }
 }
 let content = null;
 let realm = new Realm({schema: [flashCardSchemaBeta4]});
 let cards = realm.objects('Cards');
-let maxLength = cards.length;
 export default class Questions extends Component {
     propTypes:{    
     shuffledNumber: React.PropTypes.array,
@@ -49,7 +49,7 @@ export default class Questions extends Component {
   initData(data){
     let date = new Date();
     data.map( jsondata => {
-      console.log('t')
+      console.log('making...')
       let randomId = Math.floor((Math.random() * 10000000) + 1);
        realm.write(()=> {
           realm.create('Cards', {
@@ -102,9 +102,10 @@ export default class Questions extends Component {
     }
 
     let shuffledNumber = shuffle([1,2,3,4]);    
-    let answers = cards.filtered("completed = true AND grade BEGINSWITH '中１' AND part = '動詞'");
-    console.log(answers.length)
-    let questions = cards.filtered("grade BEGINSWITH '中１' AND part = '動詞'");        
+    let queryForA = `completed = ${completed} AND grade BEGINSWITH '${grade}' AND part = '${part}'`
+    let queryForQ = `grade BEGINSWITH '${grade}' AND part = '${part}'`
+    let answers = cards.filtered(queryForA);
+    let questions = cards.filtered(queryForQ);        
     let extractedAnswer = extractAnswer(answers);
     var extractedQuestions = extractThreeQuestions(questions);
     if(answers.length !== 0){
@@ -118,7 +119,7 @@ export default class Questions extends Component {
     
     let restLength = answers.length;
     this.setState({  
-      maxLength: maxLength,
+      maxLength: questions.length,
       restLength: restLength,
       shuffledNumber: shuffledNumber,
       question:extractedAnswer,
@@ -137,6 +138,7 @@ export default class Questions extends Component {
   render(){
     if (this.state.restLength !== 0) {
       content =  <DisplayCards
+        title={`${this.state.grade}:${this.state.part}`}           
         realm={realm}
         cards={cards}
         maxLength={this.state.maxLength}

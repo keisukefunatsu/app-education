@@ -24,11 +24,11 @@ export default class Cards extends Component {
     return (
       <Router>
       <Scene key="root">        
-        <Scene key="initial" component={initialPage} title="問題" text="page1" initial={true} />
-        <Scene key="questions" component={Questions} title="結果" text="page2" hideNavBar={false} grade={'中１'} completed={false} part={'動詞'}/>
-        <Scene key="result" component={Results} title="結果" text="page3" hideNavBar={false} />        
+        <Scene key="initial" component={initialPage} title="問題" text="page1" initial={true} hideNavBar={true} />
+        <Scene key="questions" component={Questions} title="結果" text="page2" hideNavBar={true} />
+        <Scene key="result" component={Results} title="結果" text="page3" hideNavBar={true} />        
         </Scene>
-    </Router>
+      </Router>
       
     )
   }
